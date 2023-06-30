@@ -1,0 +1,6 @@
+<h1>{{ parameter.name_parameter }}</h1>
+<ul>
+{% for detail in parameter.parameterdetail.all %}
+    <li>{{ detail.value_parameter }}</li>
+{% endfor %}
+</ul>
