@@ -1,26 +1,10 @@
 from tabnanny import verbose
 from django.db import models
-from django.db import models
-from django.utils.html import format_html
-import uuid
-
-STATUS_CHOICES = (
-    ('active','Active'),
-    ('disabled', 'Disabled'),
-)
-class BaseModel(models.Model):
-    code = models.UUIDField(
-         primary_key = False,
-         default = uuid.uuid4,
-         editable = False)
-    pub_date = models.DateTimeField(auto_now_add=True, blank=True,null=True)
-    status=models.CharField(max_length=20,choices=STATUS_CHOICES,default="active")
-
-    class Meta:
-        abstract = True
+from application.models import Application
+from baseModel.baseEntity import BaseModelShared
 
 
-class TypeParameter(BaseModel):
+class TypeParameter(BaseModelShared):
     name_type = models.CharField(max_length=200)
 
     class Meta:
@@ -30,9 +14,10 @@ class TypeParameter(BaseModel):
     def __str__(self):
         return u"%s" %(self.name_type)
 
-class Parameter(BaseModel):
+class Parameter(BaseModelShared):
     name_parameter = models.CharField(max_length=500)
-    type_parameter_fk = models.ForeignKey(TypeParameter,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Tipo parametro')
+    application_fk = models.ForeignKey(Application,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Type parameter')
+    type_parameter_fk = models.ForeignKey(TypeParameter,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Application')
 
     class Meta:
         verbose_name='Parameter'
@@ -42,9 +27,9 @@ class Parameter(BaseModel):
         return u"%s" %(self.name_parameter)
 
 
-class ParameterDetail(BaseModel):
+class ParameterDetail(BaseModelShared):
     value_parameter = models.CharField(max_length=5000)
-    parameter_fk = models.ForeignKey(Parameter,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Parametro')
+    parameter_fk = models.ForeignKey(Parameter,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Parameter')
 
     class Meta:
         verbose_name='Parameter Detail'

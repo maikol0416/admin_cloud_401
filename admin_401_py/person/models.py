@@ -1,7 +1,9 @@
 from tabnanny import verbose
 from django.db import models
 import uuid
-from parameter.models import *
+
+from baseModel.baseEntity import BaseModelShared
+# from parameter.models import *
 
 GENDER_CHOICES = (
     ('F','Female'),
@@ -9,7 +11,7 @@ GENDER_CHOICES = (
     ('O', 'Other'),
 )
 
-class TypeDocument(BaseModel):
+class TypeDocument(BaseModelShared):
     name_type_document = models.CharField(max_length=100)
     description_type_document = models.CharField(max_length=200)
 
@@ -21,7 +23,7 @@ class TypeDocument(BaseModel):
         return u"%s" %(self.name_type_document)
 
 
-class TypePerson(BaseModel):
+class TypePerson(BaseModelShared):
     name_type= models.CharField(max_length=200)
     description_type= models.CharField(max_length=200)
 
@@ -32,7 +34,7 @@ class TypePerson(BaseModel):
     def __str__(self):
         return u"%s" %(self.name_type)
 
-class Person(BaseModel):
+class Person(BaseModelShared):
     first_name_person = models.CharField(max_length=200)
     last_name_person = models.CharField(max_length=200)
     document_number=models.CharField(max_length=100,null=False)
