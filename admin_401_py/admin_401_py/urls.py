@@ -16,11 +16,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from parameter import views
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 admin.site.site_header = '401 ADMIN-SITE'
 admin.site.site_header = '401 ADMIN-SITE'                    
 admin.site.index_title = '401 ADMIN-SITE'                 
 admin.site.site_title = '401 ADMIN-SITE'
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="401 API",
+      default_version='v1',
+      description="API master and cloud services - django",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="unauthorized_401@outlook.com"),
+      license=openapi.License(name="401 code"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
@@ -28,4 +47,7 @@ urlpatterns = [
     path("person/", include("person.urls")),
     path("application/", include("application.urls")),
     path("admin/", admin.site.urls),
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

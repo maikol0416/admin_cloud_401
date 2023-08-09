@@ -16,8 +16,8 @@ class TypeParameter(BaseModelShared):
 
 class Parameter(BaseModelShared):
     name_parameter = models.CharField(max_length=500)
-    application_fk = models.ForeignKey(Application,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Type parameter')
-    type_parameter_fk = models.ForeignKey(TypeParameter,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Application')
+    application_fk = models.ForeignKey(Application,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Application')
+    type_parameter_fk = models.ForeignKey(TypeParameter,on_delete=models.CASCADE, blank=True,null=True, verbose_name='Type parameter')
 
     class Meta:
         verbose_name='Parameter'
